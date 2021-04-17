@@ -4,10 +4,9 @@ from requests import *
 import vk
 
 # Указываем ключи доступа, id группы и версию API
-YANDEX_API_KEY = '***'
-VK_API_ACCESS_TOKEN = '***'
-VK_API_VERSION = '5.95'
-GROUP_ID = 123
+VK_API_ACCESS_TOKEN = 'e329abcbd83fa8d98e936897a082c5bf81c22d37cc1f398b392b6d49d1b40ce1f2985084660ab74f9f2d2'
+VK_API_VERSION = '5.130'
+GROUP_ID = 199901150
 
 
 session = vk.Session(access_token = VK_API_ACCESS_TOKEN)
