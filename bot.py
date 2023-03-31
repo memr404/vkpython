@@ -1,7 +1,6 @@
-import os
+import os, vk, sys
 from random import randint
 from requests import *
-import vk
 
 # Указываем ключи доступа, id группы и версию API
 YANDEX_API_KEY = '***'
@@ -10,8 +9,7 @@ VK_API_VERSION = '5.95'
 GROUP_ID = 123
 
 
-session = vk.Session(access_token = VK_API_ACCESS_TOKEN)
-api = vk.API(session, v = VK_API_VERSION)
+api = vk.API(access_token = VK_API_ACCESS_TOKEN, v = VK_API_VERSION)
 
 # Первый запрос к LongPoll: получаем server и key
 longPoll = api.groups.getLongPollServer(group_id = GROUP_ID)
@@ -19,11 +17,14 @@ server, key, ts = longPoll['server'], longPoll['key'], longPoll['ts']
 
 while True:
     # Последующие запросы: меняется только ts
-    longPoll = post('%s'%server, data = {'act': 'a_check',
-                                         'key': key,
-                                         'ts': ts,
-                                         'wait': 25}).json()
-
+    try:
+		longPoll = post('%s'%server, data = {'act': 'a_check',
+											 'key': key,
+											 'ts': ts,
+											 'wait': 25}).json()
+	except KeyboardInterrupt:
+		print('Выходим!')
+		sys.exit()
 
     if longPoll['updates'] and len(longPoll['updates']) != 0:
         for update in longPoll['updates']:
